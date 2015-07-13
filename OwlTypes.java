@@ -15,7 +15,7 @@ class Ontology {
   Hashtable<String, OwlClass> owlClassHash = new Hashtable<String, OwlClass>(); // full name -> class object
   Hashtable<String, PropertyClass> propertyHash = new Hashtable<String, PropertyClass>(); // name -> property object
   Hashtable<String, DataType> dataTypeHash = new Hashtable<String, DataType>();
-  Hashtable<String, NewRelation> newRelationHash = new Hashtable<String, NewRelation>();
+  Hashtable<String, Relation> newRelationHash = new Hashtable<String, Relation>();
   String base;        // the base URL for the ontology
   Boolean allDifferent; // no shared objects among the classes in the ontology; default to be false
   Hashtable<String, Vector<OwlClass>> learningOrderHash = new Hashtable<String, Vector<OwlClass>>();
@@ -33,10 +33,7 @@ class OwlClass {      // Each object represents an OWL class
 	Vector<OwlClass> disjointWith = new Vector<OwlClass>();     // list of disjoint classes
 	Vector<PropertyClass> properties = new Vector<PropertyClass>(); // list of properties for this class
 	Vector<PropertyRestriction> propertyRestrictions = new Vector<PropertyRestriction>(); // list of restrictions on the properties
-	Vector<OwlClass> includes = new Vector<OwlClass>();          // list of included classes (reverse of partOf)  
-  Vector<OwlClass> partOf = new Vector<OwlClass>();           // list of partOf classes (reverse of include)  
-  Vector<OwlClass> implement = new Vector<OwlClass>();        // list of implemented (reverse of implementedBy) classes 
-  Vector<Implementor> implementedBy = new Vector<Implementor>();    // list of alternative implementors
+	Map<Relation,List<OwlClass>> relationsMap = new HashMap<Relation,List<OwlClass>>();
   String resource;
 }
 
@@ -75,10 +72,103 @@ class DataType { // Declares a data type or its restriction
 	String about;  // what is a data type; hash key
 	String subClassOf; // id is a subclass of which DataType
 }
-class NewRelation{
-	String about;
+class Relation{
+	private String iri;
+	private String name;
+	private String namespace;
+	private boolean Asymmetric = false;
+    private boolean Functional = false;
+    private boolean InverseFunctional = false;
+    private boolean Irreflexive = false;
+    private boolean Reflexive = false;
+    private boolean Symmetric = false;
+    private boolean Transitive = false;
 	
-	//String name;
+	public Relation(String iri) {
+		setIRI(iri);
+	}
+	
+	void setIRI(String iri){
+		this.iri = iri;
+		if(iri.split("#").length >= 2){
+			namespace = iri.split("#")[0];
+			name      = iri.split("#")[1];
+		}
+		else{
+			namespace = "";
+			name      = iri;
+		}
+	}
+	
+	String getIRI(){
+		return iri;
+	}
+	
+	String getName(){
+		return name;
+	}
+	
+	String getNamespace(){
+		return namespace;
+	}
+	
+	public boolean isAsymmetric(){
+		return Asymmetric;
+	}
+	
+	public boolean isFunctional(){
+		return Functional;
+	}
+
+    public boolean isInverseFunctional(){
+		return InverseFunctional;
+	}
+	
+    public boolean isIrreflexive(){
+		return Irreflexive;
+	}
+	
+    public boolean isReflexive(){
+		return Reflexive;
+	}
+	
+    public boolean isSymmetric(){
+		return Symmetric;
+	}
+
+	
+    public boolean isTransitive(){
+		return Transitive;
+	}
+
+	public void setAsymmetric(boolean b){
+		this.Asymmetric = b;
+	}
+	
+    public void setFunctional(boolean b){
+		this.Functional = b;
+	}
+
+    public void setInverseFunctional(boolean b){
+		this.InverseFunctional = b;
+	}
+	
+    public void setIrreflexive(boolean b){
+		this.Irreflexive = b;
+	}
+	
+    public void setReflexive(boolean b){
+		this.Reflexive = b;
+	}
+	
+    public void setSymmetric(boolean b){
+		this.Symmetric = b;
+	}
+	
+    public void setTransitive(boolean b){
+		this.Transitive = b;
+	}
+	
 }
 
 // The following enums are to be extended as needed
@@ -92,7 +182,7 @@ enum OwlElement {RDF, ONTOLOGY, COMMENT, LABEL, VERSIONINFO, NEWRELATION, CLASS,
 	    EQUIVALENTCLASS, ONPROPERTY, SOMEVALUESFROM, HASVALUE, ALLDIFFERENT, DATATYPEPROPERTY, DOMAIN, RANGE,
 	    DATATYPE, TYPE, OBJECTPROPERTY, INVERSEOF, DISTINCTMEMBERS,
 	    // extensions for new relations
-	    INCLUDES, PARTOF, IMPLEMENT, IMPLEMENTEDBY, NAME, REF, LEARNINGORDER, 
+	    NAME, REF, LEARNINGORDER, 
 	    NODEF,  // no definition; probably new values need be added to the enum
 	    NULL    // the String version is null; for debugging
 	   }

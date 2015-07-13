@@ -25,12 +25,13 @@ public class PaceJena extends DefaultHandler implements LexicalHandler {
 	Ontology currentOntology;
 	     
 	public static void main(String argv[]){
-	 if (argv.length < 1 || argv.length > 2) {
+	 /*if (argv.length < 1 || argv.length > 2) {
 	   System.err.println("Usage: java PaceJena Ontology-file");
 	   System.exit(1);
-	 }
+	 }*/
 	 PaceJena o = new PaceJena();
-	 o.readOntology(argv[0]);
+	 o.readOntology("rel.owl");
+	 System.out.println("--> reading complete");
 	 o.printOntology();
 	 o.printRelations();
 	 o.printClasses();
@@ -335,18 +336,29 @@ public class PaceJena extends DefaultHandler implements LexicalHandler {
 	}
 	void printRelations(){
 		System.out.println("\nNew Relations:\n");
-		//NewRelation nr1=findNewrelation(attrValue(attrs, "about"));
-		Enumeration<String> j = currentOntology.newRelationHash.keys();
-		while(j.hasMoreElements()){
-			NewRelation o=currentOntology.newRelationHash.get(j.nextElement());
-			
-			if(o.about !=null)
-			System.out.println("New relation namespace: " + o.about);
-			System.out.println("New relation:"+remove(o.about));
-	}
-		
-		    //System.out.println(\n);
-		
+		for (String key: currentOntology.newRelationHash.keySet()) {
+			Relation rel = currentOntology.newRelationHash.get(key);
+			String id = rel.getIRI();
+			System.out.println(id + "\n");
+			String qName = id;
+			if(id.split("#").length >= 2)
+				qName = id.split("#")[1];
+
+			if(rel.isFunctional())
+				System.out.println(qName + ": is a Functional Relation");
+			if(rel.isInverseFunctional())
+				System.out.println(qName + ": is a Inverse Functional Relation");
+			if(rel.isIrreflexive())
+				System.out.println(qName + ": is a Irreflexive Relation");
+			if(rel.isReflexive())
+				System.out.println(qName + ": is a Reflexive Relation");
+			if(rel.isSymmetric())
+				System.out.println(qName + ": is a Symmetric Relation");
+			if(rel.isTransitive())
+				System.out.println(qName + ": is a Transitive Relation");
+			if(rel.isAsymmetric())
+				System.out.println(qName + ": is a Asymmetric Relation");
+		}
 	}
 	void printClasses() {
 	  System.out.println("\nClasses:\n");
@@ -381,8 +393,13 @@ public class PaceJena extends DefaultHandler implements LexicalHandler {
 	    i = o.propertyRestrictions.iterator();
 	    while (i.hasNext()) 
 	      printPropertyRestriction(o.id, (PropertyRestriction)i.next());
-	      
-	    i = o.includes.iterator(); 
+	    
+		for(Relation rel : o.relationsMap.keySet()){
+			List<OwlClass> relatedClasses = o.relationsMap.get(rel); 
+			for(OwlClass b: relatedClasses)
+				System.out.println("Class " + o.about + " : related by - " + rel.getName() + " : to -" + b.about);
+		}
+	    /*i = o.includes.iterator(); 
 	    while (i.hasNext()) {
 	      OwlClass c = (OwlClass)i.next();
 	      if (c != null)
@@ -410,7 +427,7 @@ public class PaceJena extends DefaultHandler implements LexicalHandler {
 	        if (c != null) System.out.print(" " + remove(c.about));         
 	      }
 	      System.out.println();
-	    }
+	    }*/
 	  } 
 	}
 	
@@ -487,7 +504,13 @@ public class PaceJena extends DefaultHandler implements LexicalHandler {
 	// convert string names to values in enum OwlElement; improving efficiency and maintainability
 	OwlElement toEnum(String n) {
 		if (n == null) return OwlElement.NULL;
-	  final OwlElement elem = OwlElement.valueOf(n.toUpperCase());
+	  OwlElement elem;
+	  try{
+		elem = OwlElement.valueOf(n.toUpperCase());
+	  }
+	  catch(Exception e){
+		elem = null;
+	  }
 		if (elem == null) return OwlElement.NODEF;
     return elem;
 	}
@@ -530,12 +553,14 @@ public class PaceJena extends DefaultHandler implements LexicalHandler {
 	  return o;   
 	}
 	
-	public NewRelation findNewrelation(String name) {
-		  if (name.startsWith("#")) name = name.substring(1); 
-		  NewRelation o = currentOntology.newRelationHash.get(name);
-		  if (o == null) error("NewRelation " + name + " missing");
+	public Relation findRelation(String name) {
+		  String iri = name;
+		  if(iri.split("#").length >= 2)
+			iri = iri.split("#")[1];
+		  Relation o = currentOntology.newRelationHash.get(iri);
+		  if (o == null) error("Relation " + name + " missing");
 		  return o;   
-		}
+	}
 	
 	static Object stack_at(Stack<Object> s, int i) { // index of stack top is 0
 	  return s.get(s.size() - i - 1);
@@ -543,6 +568,29 @@ public class PaceJena extends DefaultHandler implements LexicalHandler {
 	
 	// Current learning order being assembled, and its ID is on stack top
 	Vector<OwlClass> learningOrderVector;
+	
+	void processRelationRestriction(Relation rel, String prop){
+		if(prop.split("#").length >= 2)
+			prop = prop.split("#")[1];
+		
+		if(prop.equals("AsymmetricRelation"))
+            rel.setAsymmetric(true);
+        else if(prop.equals("FunctionalRelation"))
+			rel.setFunctional(true);
+        else if(prop.equals("InverseFunctionalRelation"))
+			rel.setInverseFunctional(true);
+        else if(prop.equals("IrreflexiveRelation"))
+            rel.setIrreflexive(true);
+        else if(prop.equals("ReflexiveRelation"))
+            rel.setReflexive(true);
+        else if(prop.equals("SymmetricRelation"))
+			rel.setSymmetric(true);
+        else if(prop.equals("TransitiveRelation"))
+            rel.setTransitive(true);
+        else
+            System.out.println("----> INFO: No match found in processRelationRestriction");
+
+	}
 	
 	public void startElement(String namespaceURI,
 	                         String sName, // simple name
@@ -575,12 +623,13 @@ public class PaceJena extends DefaultHandler implements LexicalHandler {
 	        dt.about = attrValue(attrs, "about");
 	        currentOntology.dataTypeHash.put(dt.about, dt);
 	        break;
-	    case NEWRELATION:
-	    	
-	    	  NewRelation nr= new NewRelation();
-	    	  nr.about=attrValue(attrs,"about");
-	    	  currentOntology.newRelationHash.put(nr.about,nr);
-	    	  
+	      case NEWRELATION:
+			String iri = attrValue(attrs,"about");
+			if(iri.startsWith("#"))
+				iri = currentOntology.base + iri;
+	    	Relation rel= new Relation(iri);
+	    	currentOntology.newRelationHash.put(rel.getName(),rel);
+			break;
 	      case OBJECTPROPERTY: 
 	        ObjectProperty op = new ObjectProperty();
 	        op.namespace = currentOntology.base; // of no use, set again in pass 2
@@ -594,31 +643,29 @@ public class PaceJena extends DefaultHandler implements LexicalHandler {
 	    return;
 	  }
 	  // pass 2 starts here
-		switch (n) {
-			case RDF: 
+	  switch (n) {
+		case RDF: 
 	      stack_object.push(new Object()); 
 	      currentOntology.base = attrValue(attrs, "base");
 	      break;
-			case ONTOLOGY: 
+		case ONTOLOGY: 
 	      stack_object.push(currentOntology); 
 	      currentOntology.about = attrValue(attrs, "about");
 	      break;
-			case COMMENT: stack_object.push(new Object()); break;
-			case LABEL: stack_object.push(new Object()); break;
-			case VERSIONINFO: stack_object.push(new Object()); break;
-			case NEWRELATION:
-				
-				NewRelation nr=findNewrelation(attrValue(attrs, "about"));
-				stack_object.push(nr); 
-			
+		case COMMENT: stack_object.push(new Object()); break;
+		case LABEL: stack_object.push(new Object()); break;
+		case VERSIONINFO: stack_object.push(new Object()); break;
+		case NEWRELATION:
+			Relation rel=findRelation(attrValue(attrs, "about"));
+			stack_object.push(rel); 	
 			break;
-			case CLASS: 
+		case CLASS: 
 	      aClass = findClass(attrValue(attrs, "about")); 
 	      if (aClass == null) error("Class " + attrValue(attrs, "about") + " missing");
 	      aClass.namespace = currentOntology.base; // need be revised to the class's namespace
 	      stack_object.push(aClass);      
 	      break;
-			case SUBCLASSOF: 
+		case SUBCLASSOF: 
 	      if (attrValue(attrs, "resource").equals("")) { // base class is a restriction
 	        stack_object.push(new Object());       
 	        break;
@@ -636,20 +683,20 @@ public class PaceJena extends DefaultHandler implements LexicalHandler {
 	      else error("Misplaced subClassOf");
 	      stack_object.push(new Object());       
 	      break;
-			case DISJOINTWITH: 
+		case DISJOINTWITH: 
 	      if (stack_E.peek() != OwlElement.CLASS) error("Misplaced DisjointWith");
 	      aClass = (OwlClass)stack_object.peek();
 	      aClass.disjointWith.add(findClass(attrValue(attrs, "resource")));
 	      stack_object.push(new Object()); 
 	      break;
-			case RESTRICTION: 
+		case RESTRICTION: 
 	      if (stack_E.peek() != OwlElement.SUBCLASSOF) error("Misplaced Restriction");
 	      PropertyRestriction pr = new PropertyRestriction();
 	      aClass = (OwlClass)stack_at(stack_object, 1); 
 	      aClass.propertyRestrictions.add(pr); 
 	      stack_object.push(pr); 
 	      break;
-			case EQUIVALENTCLASS: 
+		case EQUIVALENTCLASS: 
 	      if (stack_E.peek() != OwlElement.CLASS) error("Misplaced EquivalentClass");
 	      aClass = (OwlClass)stack_at(stack_object, 0);
 	      if (attrValue(attrs, "resource").startsWith("http:"))
@@ -658,35 +705,35 @@ public class PaceJena extends DefaultHandler implements LexicalHandler {
 	        aClass.equivalentClass.add(findClass(attrValue(attrs, "resource"))); 
 	      stack_object.push(new Object()); 
 	      break;
-			case ONPROPERTY: 
+		case ONPROPERTY: 
 	      if (stack_E.peek() != OwlElement.RESTRICTION) error("Misplaced onProperty");
 	      pr = (PropertyRestriction)stack_at(stack_object, 0);
 	      pr.basePropertyName = attrValue(attrs, "resource");
 	      pr.baseProperty = findProperty(pr.basePropertyName);
 	      stack_object.push(new Object()); 
 	      break;
-			case SOMEVALUESFROM: 
+		case SOMEVALUESFROM: 
 	      if (stack_E.peek() != OwlElement.RESTRICTION) error("Misplaced someValuesFrom");
 	      pr = (PropertyRestriction)stack_at(stack_object, 0);
 	      pr.valueClass = (OwlClass)findClass(attrValue(attrs, "resource"));
 	      pr.type = PropertyResctrictionType.SomeValuesFrom;
 	      stack_object.push(new Object()); 
 	      break;
-			case HASVALUE: 
+		case HASVALUE: 
 	      if (stack_E.peek() != OwlElement.RESTRICTION) error("Misplaced hasValue");
 	      pr = (PropertyRestriction)stack_at(stack_object, 0);
 	      pr.valueType = attrValue(attrs, "datatype");
 	      pr.type = PropertyResctrictionType.HasValue;       
 	      stack_object.push(new Object()); 
 	      break;
-			case ALLDIFFERENT: stack_object.push(new Object()); break; // have not been worked on yet
-			case DATATYPEPROPERTY: 
+		case ALLDIFFERENT: stack_object.push(new Object()); break; // have not been worked on yet
+		case DATATYPEPROPERTY: 
 	      String name = attrValue(attrs, "ID");
 	      DatatypeProperty dp = (DatatypeProperty)findProperty(name); 
 	      dp.namespace = currentOntology.base;
 	      stack_object.push(dp); 
 	      break;
-			case DOMAIN: 
+		case DOMAIN: 
 	      if (stack_E.peek() != OwlElement.OBJECTPROPERTY && stack_E.peek() != OwlElement.DATATYPEPROPERTY) error("Misplaced domain");
 	      PropertyClass p = (PropertyClass)stack_at(stack_object, 0);
 	      OwlClass o = (OwlClass)findClass(attrValue(attrs, "resource"));
@@ -694,7 +741,7 @@ public class PaceJena extends DefaultHandler implements LexicalHandler {
 	      o.properties.add(p);
 	      stack_object.push(new Object()); 
 	      break;
-			case RANGE: 
+		case RANGE: 
 	      if (stack_E.peek() == OwlElement.OBJECTPROPERTY) {
 	        ObjectProperty op = (ObjectProperty)stack_at(stack_object, 0);
 	        op.range = (OwlClass)findClass(attrValue(attrs, "resource"));
@@ -707,23 +754,30 @@ public class PaceJena extends DefaultHandler implements LexicalHandler {
 	        error("Misplaced range");
 	      stack_object.push(new Object()); 
 	      break;
-			case DATATYPE: 
+		case DATATYPE: 
 	      DataType dt = findDatatype(attrValue(attrs, "about"));
 	      stack_object.push(dt); 
 	      break;
-			case TYPE: 
+		case TYPE:
+		  if(stack_E.peek() == OwlElement.NEWRELATION)
+		  {
+			Relation nr =  (Relation)stack_object.peek();
+			processRelationRestriction(nr,attrValue(attrs, "resource"));
+			stack_object.push(new Object());
+			break;
+		  }
 	      if ((stack_E.peek() != OwlElement.OBJECTPROPERTY) && (stack_E.peek() != OwlElement.DATATYPEPROPERTY)) error("Misplaced type");
 	      p = (PropertyClass)stack_at(stack_object, 0);
 	      p.type.add(attrValue(attrs, "resource"));
 	      stack_object.push(new Object()); 
 	      break;
-			case OBJECTPROPERTY: 
+		case OBJECTPROPERTY: 
 	      name = attrValue(attrs, "ID");
 	      ObjectProperty op = (ObjectProperty)findProperty(name);
 	      op.namespace = currentOntology.base;
 	      stack_object.push(op); 
 	      break;
-			case INVERSEOF: 
+		case INVERSEOF: 
 	      if (stack_E.peek() != OwlElement.OBJECTPROPERTY) error("misplaced inverseOf");
 	      op = (ObjectProperty)stack_at(stack_object, 0);
 	      ObjectProperty op2 = (ObjectProperty)findProperty(attrValue(attrs, "resource"));
@@ -733,58 +787,40 @@ public class PaceJena extends DefaultHandler implements LexicalHandler {
 	      break; 
 	    case DISTINCTMEMBERS: stack_object.push(new Object()); break; // have not been worked on yet
 	    case LEARNINGORDER:
-        String id = attrValue(attrs, "ID");
-        if (id == null) id = "default";
-        stack_object.push(id);   
-        learningOrderVector = new Vector<OwlClass>();    
-        break;
-      case REF:
-    	  
-        String resourceName = attrValue(attrs, "resource");
-       
-        aClass = findClass(resourceName);
-        if (stack_E.peek() == OwlElement.LEARNINGORDER) 
-        { if (aClass != null)
-        	 
+          String id = attrValue(attrs, "ID");
+          if (id == null) id = "default";
+          stack_object.push(id);   
+          learningOrderVector = new Vector<OwlClass>();    
+          break;
+		case REF:
+    	  String resourceName = attrValue(attrs, "resource");
+          aClass = findClass(resourceName);
+          if (stack_E.peek() == OwlElement.LEARNINGORDER) 
+          { 
+		    if (aClass != null)
         	 learningOrderVector.add(aClass);
-        }
-        if (stack_E.peek() == OwlElement.IMPLEMENTEDBY) {
-          Implementor imp = (Implementor)stack_at(stack_object, 0);
-	        imp.impl.add(aClass);
-        }
-        stack_object.push(aClass);
-        break;
-      case INCLUDES:
-        aClass = (OwlClass)stack_object.peek(); 
-	      bClass = findClass(attrValue(attrs, "resource"));
-	      aClass.includes.add(bClass); 
-	      //bClass.partOf.add(aClass);
-	      stack_object.push(new Object()); 
-        break;
-      case PARTOF:
-        aClass = (OwlClass)stack_object.peek(); 
-	      bClass = findClass(attrValue(attrs, "resource"));
-	      aClass.partOf.add(bClass); 
-	      //bClass.includes.add(aClass);
-	      stack_object.push(new Object()); 
-        break;
-      case IMPLEMENT: 
-        aClass = (OwlClass)stack_object.peek(); 
-	      bClass = findClass(attrValue(attrs, "resource"));
-	      aClass.implement.add(bClass); 
-	      //bClass.implementedBy.add(aClass);
-	      stack_object.push(new Object()); 
-        break;
-      case IMPLEMENTEDBY:
-        Implementor imp = new Implementor();
-        String s = attrValue(attrs, "resource");
-        bClass = null;
-        if (s != null && !s.trim().equals("")) bClass = findClass(s);
-        if (bClass != null) imp.impl.add(bClass);
-	      stack_object.push(imp);  
-        break;
-			default: 
-			  System.out.println("startElement(): undefined element: " + sName);
+          }
+          stack_object.push(aClass);
+          break;
+		default:
+		  if(namespaceURI.equals("http://www.pace.edu/rel-syntax-ns#")){
+			if(findRelation(sName) == null){
+				error("Relation not found");
+				break;
+			}
+			if (stack_E.peek() == OwlElement.CLASS) {
+				rel = findRelation(sName);
+				aClass = (OwlClass)stack_object.peek();
+				bClass = findClass(attrValue(attrs, "resource"));
+				if(aClass.relationsMap.get(rel) == null)
+					aClass.relationsMap.put(rel,new ArrayList<OwlClass>());
+				aClass.relationsMap.get(rel).add(bClass);
+				stack_object.push(new Object());
+			}
+			break;
+		  }
+		  else
+		    System.out.println("startElement(): undefined element: " + sName);
 		}
 	  stack_E.push(n);
 	}
@@ -838,23 +874,23 @@ public class PaceJena extends DefaultHandler implements LexicalHandler {
 			case TYPE:
 			case OBJECTPROPERTY:
 			case INVERSEOF: 
-			case DISTINCTMEMBERS: 
-			case INCLUDES:
-			case PARTOF:
-			case IMPLEMENT:
+			case DISTINCTMEMBERS:
 			case REF: break;
-			case IMPLEMENTEDBY:
-			  if (stack_E.peek() == OwlElement.CLASS) {
-			    OwlClass c = (OwlClass)stack_object.peek();
-			    c.implementedBy.add((Implementor)o);
-			  }
-			  break;
 	    case LEARNINGORDER:   
         currentOntology.learningOrderHash.put((String)o, learningOrderVector);
         break;		
-			default: 
+		default:
+			 if(namespaceURI.equals("http://www.pace.edu/rel-syntax-ns#")){
+				if(findRelation(sName) == null){
+					System.out.println("startElement(): undefined relation: " + sName);
+					System.exit(1);
+				}
+				break;
+			}
+			else{
 			  System.out.println("startElement(): undefined element: " + sName);
 			  System.exit(1);
+			}
 		}
 	}
 	

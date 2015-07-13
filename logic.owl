@@ -1,0 +1,298 @@
+<?xml version="1.0"?>
+
+
+<!DOCTYPE rdf:RDF [
+    <!ENTITY owl "http://www.w3.org/2002/07/owl#" >
+    <!ENTITY xsd "http://www.w3.org/2001/XMLSchema#" >
+    <!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema#" >
+    <!ENTITY ace_lexicon "http://attempto.ifi.uzh.ch/ace_lexicon#" >
+    <!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#" >
+    <!ENTITY untitled-ontology-34 "http://www.semanticweb.org/ning/ontologies/2015/5/untitled-ontology-34#" >
+]>
+
+
+<rdf:RDF xmlns="http://www.semanticweb.org/ning/ontologies/2015/5/untitled-ontology-34#"
+     xml:base="http://www.semanticweb.org/ning/ontologies/2015/5/untitled-ontology-34"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     xmlns:owl="http://www.w3.org/2002/07/owl#"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:untitled-ontology-34="http://www.semanticweb.org/ning/ontologies/2015/5/untitled-ontology-34#"
+     xmlns:ace_lexicon="http://attempto.ifi.uzh.ch/ace_lexicon#">
+    <owl:Ontology rdf:about="http://www.semanticweb.org/ning/ontologies/2015/5/untitled-ontology-34"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Annotation properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://attempto.ifi.uzh.ch/ace_lexicon#CN_pl -->
+
+    <owl:AnnotationProperty rdf:about="&ace_lexicon;CN_pl"/>
+    
+
+
+    <!-- http://attempto.ifi.uzh.ch/ace_lexicon#CN_sg -->
+
+    <owl:AnnotationProperty rdf:about="&ace_lexicon;CN_sg"/>
+    
+
+
+    <!-- http://attempto.ifi.uzh.ch/ace_lexicon#TV_pl -->
+
+    <owl:AnnotationProperty rdf:about="&ace_lexicon;TV_pl"/>
+    
+
+
+    <!-- http://attempto.ifi.uzh.ch/ace_lexicon#TV_sg -->
+
+    <owl:AnnotationProperty rdf:about="&ace_lexicon;TV_sg"/>
+    
+
+
+    <!-- http://attempto.ifi.uzh.ch/ace_lexicon#TV_vbg -->
+
+    <owl:AnnotationProperty rdf:about="&ace_lexicon;TV_vbg"/>
+    
+
+
+    <!-- http://www.semanticweb.org/ning/ontologies/2015/5/untitled-ontology-34#include -->
+
+    <owl:AnnotationProperty rdf:about="&untitled-ontology-34;include"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Object Properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.semanticweb.org/ning/ontologies/2015/5/untitled-ontology-34#PartOf -->
+
+    <owl:ObjectProperty rdf:about="&untitled-ontology-34;PartOf">
+        <ace_lexicon:TV_pl>PartOf</ace_lexicon:TV_pl>
+        <ace_lexicon:TV_vbg>PartOfed</ace_lexicon:TV_vbg>
+        <ace_lexicon:TV_sg>PartOfs</ace_lexicon:TV_sg>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/ning/ontologies/2015/5/untitled-ontology-34#eat -->
+
+    <owl:ObjectProperty rdf:about="&untitled-ontology-34;eat">
+        <ace_lexicon:TV_pl>eat</ace_lexicon:TV_pl>
+        <ace_lexicon:TV_sg>eats</ace_lexicon:TV_sg>
+        <ace_lexicon:TV_vbg>eaten</ace_lexicon:TV_vbg>
+        <owl:inverseOf rdf:resource="&untitled-ontology-34;eated"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/ning/ontologies/2015/5/untitled-ontology-34#eated -->
+
+    <owl:ObjectProperty rdf:about="&untitled-ontology-34;eated">
+        <ace_lexicon:TV_sg>eateds</ace_lexicon:TV_sg>
+        <ace_lexicon:TV_pl>eated</ace_lexicon:TV_pl>
+        <ace_lexicon:TV_vbg>eateded</ace_lexicon:TV_vbg>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/ning/ontologies/2015/5/untitled-ontology-34#is_part_of -->
+
+    <owl:ObjectProperty rdf:about="&untitled-ontology-34;is_part_of">
+        <rdf:type rdf:resource="&owl;TransitiveProperty"/>
+        <ace_lexicon:TV_sg>is_part_ofs</ace_lexicon:TV_sg>
+        <ace_lexicon:TV_vbg>is_part_ofed</ace_lexicon:TV_vbg>
+        <ace_lexicon:TV_pl>is_part_of</ace_lexicon:TV_pl>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/ning/ontologies/2015/5/untitled-ontology-34#maineat -->
+
+    <owl:ObjectProperty rdf:about="&untitled-ontology-34;maineat">
+        <ace_lexicon:TV_sg>maineats</ace_lexicon:TV_sg>
+        <ace_lexicon:TV_pl>maineat</ace_lexicon:TV_pl>
+        <ace_lexicon:TV_vbg>maineated</ace_lexicon:TV_vbg>
+        <rdfs:range rdf:resource="&untitled-ontology-34;Animal"/>
+        <rdfs:subPropertyOf rdf:resource="&untitled-ontology-34;eat"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Classes
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.semanticweb.org/ning/ontologies/2015/5/untitled-ontology-34#Animal -->
+
+    <owl:Class rdf:about="&untitled-ontology-34;Animal">
+        <owl:disjointWith rdf:resource="&untitled-ontology-34;Plant"/>
+        <ace_lexicon:CN_sg>Animal</ace_lexicon:CN_sg>
+        <ace_lexicon:CN_pl>Animals</ace_lexicon:CN_pl>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ning/ontologies/2015/5/untitled-ontology-34#Branch -->
+
+    <owl:Class rdf:about="&untitled-ontology-34;Branch">
+        <rdfs:subClassOf rdf:resource="&untitled-ontology-34;Plant"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&untitled-ontology-34;is_part_of"/>
+                <owl:allValuesFrom rdf:resource="&untitled-ontology-34;Tree"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <ace_lexicon:CN_pl>Branches</ace_lexicon:CN_pl>
+        <ace_lexicon:CN_sg>Branch</ace_lexicon:CN_sg>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ning/ontologies/2015/5/untitled-ontology-34#Giaffe -->
+
+    <owl:Class rdf:about="&untitled-ontology-34;Giaffe">
+        <rdfs:subClassOf rdf:resource="&untitled-ontology-34;Animal"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&untitled-ontology-34;eat"/>
+                <owl:allValuesFrom rdf:resource="&untitled-ontology-34;Leaf"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&untitled-ontology-34;PartOf"/>
+                <owl:someValuesFrom rdf:resource="&untitled-ontology-34;Lion"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <ace_lexicon:CN_pl>Giaffes</ace_lexicon:CN_pl>
+        <ace_lexicon:CN_sg>Giaffe</ace_lexicon:CN_sg>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ning/ontologies/2015/5/untitled-ontology-34#Herbivore -->
+
+    <owl:Class rdf:about="&untitled-ontology-34;Herbivore">
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&untitled-ontology-34;Animal"/>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="&untitled-ontology-34;eat"/>
+                        <owl:allValuesFrom rdf:resource="&untitled-ontology-34;Plant"/>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+        <rdfs:subClassOf rdf:resource="&untitled-ontology-34;Animal"/>
+        <ace_lexicon:CN_sg>Herbivore</ace_lexicon:CN_sg>
+        <ace_lexicon:CN_pl>Herbivores</ace_lexicon:CN_pl>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ning/ontologies/2015/5/untitled-ontology-34#Leaf -->
+
+    <owl:Class rdf:about="&untitled-ontology-34;Leaf">
+        <rdfs:subClassOf rdf:resource="&untitled-ontology-34;Plant"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&untitled-ontology-34;PartOf"/>
+                <owl:someValuesFrom rdf:resource="&untitled-ontology-34;Branch"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&untitled-ontology-34;is_part_of"/>
+                <owl:allValuesFrom rdf:resource="&untitled-ontology-34;Branch"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <ace_lexicon:CN_pl>Leaves</ace_lexicon:CN_pl>
+        <ace_lexicon:CN_sg>Leaf</ace_lexicon:CN_sg>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ning/ontologies/2015/5/untitled-ontology-34#Lion -->
+
+    <owl:Class rdf:about="&untitled-ontology-34;Lion">
+        <rdfs:subClassOf rdf:resource="&untitled-ontology-34;Animal"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&untitled-ontology-34;maineat"/>
+                <owl:someValuesFrom rdf:resource="&untitled-ontology-34;Herbivore"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <ace_lexicon:CN_sg>Lion</ace_lexicon:CN_sg>
+        <ace_lexicon:CN_pl>Lions</ace_lexicon:CN_pl>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ning/ontologies/2015/5/untitled-ontology-34#Plant -->
+
+    <owl:Class rdf:about="&untitled-ontology-34;Plant">
+        <ace_lexicon:CN_pl>Plants</ace_lexicon:CN_pl>
+        <ace_lexicon:CN_sg>Plant</ace_lexicon:CN_sg>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ning/ontologies/2015/5/untitled-ontology-34#Tree -->
+
+    <owl:Class rdf:about="&untitled-ontology-34;Tree">
+        <rdfs:subClassOf rdf:resource="&untitled-ontology-34;Plant"/>
+        <ace_lexicon:CN_pl>Trees</ace_lexicon:CN_pl>
+        <ace_lexicon:CN_sg>Tree</ace_lexicon:CN_sg>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ning/ontologies/2015/5/untitled-ontology-34#carnivore -->
+
+    <owl:Class rdf:about="&untitled-ontology-34;carnivore">
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&untitled-ontology-34;Animal"/>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="&untitled-ontology-34;eat"/>
+                        <owl:someValuesFrom rdf:resource="&untitled-ontology-34;Animal"/>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+        <rdfs:subClassOf rdf:resource="&untitled-ontology-34;Animal"/>
+        <ace_lexicon:CN_pl>carnivores</ace_lexicon:CN_pl>
+        <ace_lexicon:CN_sg>carnivore</ace_lexicon:CN_sg>
+    </owl:Class>
+</rdf:RDF>
+
+
+
+<!-- Generated by the OWL API (version 3.4.2) http://owlapi.sourceforge.net -->
+

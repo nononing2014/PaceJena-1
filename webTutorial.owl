@@ -1,0 +1,346 @@
+<?xml version="1.0"?>
+<!DOCTYPE rdf:RDF 
+[<!ENTITY xsd "http://www.w3.org/2001/XMLSchema#">
+ <!ENTITY owl "http://www.w3.org/2002/07/owl#">
+ <!ENTITY pace "http://csis.pace.edu#">
+]>
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+         xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+         xmlns:owl="http://www.w3.org/2002/07/owl#"
+         xmlns:pace="http://csis.pace.edu/semweb#"
+         xml:base="http://csis.pace.edu/semweb/webTutorial.owl">
+  <!-- 
+  ///////////////////////////////////////////////////////////////////////////////////////
+  //
+  // Introduction to Web Technology
+  //
+  ///////////////////////////////////////////////////////////////////////////////////////
+  -->
+
+  <owl:Ontology rdf:about="http://csis.pace.edu/semweb/webTutorial.owl">
+     <rdfs:comment>Web Tutorial Knowledge Representation</rdfs:comment>
+     <rdfs:label>Web Technology Concepts</rdfs:label>
+     <owl:versionInfo>WebTutorial.owl 1.0</owl:versionInfo>
+  </owl:Ontology>
+  
+  <owl:Class rdf:ID="WebTechnology" pace:name="Web Technology">
+    <pace:include rdf:resource="#WebArchitecture"/>
+    <pace:include rdf:resource="#WebPage"/>
+    <pace:include rdf:resource="#HTTP"/>
+    <pace:include rdf:resource="#SessionManagement"/>
+  </owl:Class>
+       
+ 
+  <!-- 
+  ///////////////////////////////////////////////////////////////////////////////////////
+  //
+  // Web Architecture Section
+  //
+  ///////////////////////////////////////////////////////////////////////////////////////
+  -->
+
+  <owl:Class rdf:ID="WebArchitecture" pace:name="Web Architecture">
+    <pace:include rdf:resource="#Tier1"/>
+    <pace:include rdf:resource="#Tier2"/>
+    <pace:include rdf:resource="#Tier3"/>
+    <pace:include rdf:resource="#Tier4"/>
+  </owl:Class> 
+  
+  
+  <owl:Class rdf:ID='Tier1' pace:name="Tier 1">
+    <pace:include rdf:resource="#WebBrowser"/>
+  </owl:Class>
+  
+  <owl:Class rdf:ID='Tier2' pace:name="Tier 2">
+    <pace:include rdf:resource="#WebServer"/>
+  </owl:Class>
+  
+  <owl:Class rdf:ID='Tier3' pace:name="Tier 3">
+    <pace:include rdf:resource="#ApplicationServer"/>
+  </owl:Class>
+  
+  <owl:Class rdf:ID='Tier4' pace:name="Tier 4">
+    <pace:include rdf:resource="#DatabaseServer"/>
+  </owl:Class>
+
+
+  <!-- 
+  ///////////////////////////////////////////////////////////////////////////////////////
+  //
+  //  Database Server Section
+  //
+  ///////////////////////////////////////////////////////////////////////////////////////
+  -->
+
+  <owl:Class rdf:ID='DatabaseServer' pace:name="Database Server"/>
+  
+  <owl:Class rdf:ID="MySQL" pace:name="MySQL Database Server">
+    <rdfs:subClassOf rdf:resource='#DatabaseServer'/>
+  </owl:Class> 
+  
+  <owl:Class rdf:ID="Oracle" pace:name="Oracle Database Server">
+    <rdfs:subClassOf rdf:resource='#DatabaseServer'/>
+  </owl:Class> 
+  
+  <owl:Class rdf:ID="SQL" pace:name="SQL Database Server">
+    <rdfs:subClassOf rdf:resource='#DatabaseServer'/>
+  </owl:Class> 
+  
+  <!-- 
+  ///////////////////////////////////////////////////////////////////////////////////////
+  //
+  // Session Management Section
+  //
+  ///////////////////////////////////////////////////////////////////////////////////////
+  -->
+  
+  <owl:Class rdf:ID="SessionManagement" pace:name="Session Management">
+    <pace:implementedBy rdf:resource="#Cookie"/>
+    <pace:implementedBy rdf:resource="#HiddenField"/>
+    <pace:implementedBy rdf:resource="#QueryString"/>
+    <pace:implementedBy rdf:resource="#SessionObject"/>  
+  </owl:Class>
+  
+  <owl:Class rdf:ID='Cookie' pace:name="Cookie"/>
+
+  <owl:Class rdf:ID='HiddenField' pace:name="HiddenField">
+    <pace:partOf rdf:resource='#HtmlForm'/>
+  </owl:Class>
+  
+  <owl:Class rdf:ID='QueryString' pace:name="Query String">
+    <pace:partOf rdf:resource='#URL'/>
+  </owl:Class>
+ 
+  <owl:Class rdf:ID='SessionID' pace:name="Session Identifier">
+    <pace:implementedBy rdf:resource="#Cookie"/>
+    <pace:implementedBy rdf:resource="#HiddenField"/>
+    <pace:implementedBy rdf:resource="#QueryString"/>
+  </owl:Class>
+  
+  
+  <owl:Class rdf:ID='SessionObject' pace:name="Session Object">
+    <pace:implementedBy>
+      <pace:ref rdf:resource="#HashTable"/>
+      <pace:ref rdf:resource="#SessionID"/>
+    </pace:implementedBy>
+  </owl:Class> 
+
+  <owl:Class rdf:ID='HashTable' pace:name="Hash Table"/>
+  
+  <!-- 
+  ///////////////////////////////////////////////////////////////////////////////////////
+  //
+  // Web Server Section
+  //
+  ///////////////////////////////////////////////////////////////////////////////////////
+  -->
+
+  <owl:Class rdf:ID="WebServer" pace:name="Web Server">
+    <pace:include rdf:resource="#WebServerCore"/>
+    <pace:include rdf:resource="#WebServerExtension"/>
+  </owl:Class>
+    
+  <owl:Class rdf:ID="WebServerCore" pace:name="Web Server Core"/>
+  
+  <owl:Class rdf:ID="WebServerExtension" pace:name="Web Server Extension">
+     <pace:implementedBy rdf:resource="#ServletContainer"/>
+     <pace:implementedBy rdf:resource="#PHP"/>
+  </owl:Class>
+    
+  <owl:Class rdf:ID="Apache" pace:name="Apache Web Server">
+     <rdfs:subClassOf rdf:resource='#WebServer'/>
+  </owl:Class>
+  
+  <owl:Class rdf:ID="Tomcat" pace:name="Apache Tomcat Web Server">
+     <rdfs:subClassOf rdf:resource='#WebServer'/>
+  </owl:Class>
+  
+  <owl:Class rdf:ID="ServletContainer" pace:name="ServletContainer">
+     <pace:include rdf:resource="#Servlet"/>
+     <pace:include rdf:resource="#JSP"/>
+     <pace:include rdf:resource="#JSF"/>
+  </owl:Class>
+  
+  <owl:Class rdf:ID="Servlet" pace:name="Servlet"/>
+  
+  <owl:Class rdf:ID="JSP" pace:name="JavaServer Pages"/>
+  
+  <owl:Class rdf:ID="JSF" pace:name="JavaServer Faces"/>
+  
+  <owl:Class rdf:ID="PHP" pace:name="PHP"/>
+
+  <owl:Class rdf:ID="WebSphere" pace:name="WebSphere">
+     <pace:include rdf:resource="#WebServer"/>
+     <pace:include rdf:resource="#ApplicationServer"/>
+  </owl:Class>
+  
+  <owl:Class rdf:ID="WebLogic" pace:name="WebLogic">
+     <pace:include rdf:resource="#WebServer"/>
+     <pace:include rdf:resource="#ApplicationServer"/>
+  </owl:Class>
+  
+  <!-- 
+  ///////////////////////////////////////////////////////////////////////////////////////
+  //
+  // Web Browser Section
+  //
+  ///////////////////////////////////////////////////////////////////////////////////////
+  -->
+
+  <owl:Class rdf:ID='WebBrowser' pace:name="Web Browser">
+    <pace:include rdf:resource="SecuritySandbox"/>
+    <pace:include rdf:resource="Plugins"/>
+  </owl:Class>
+ 
+  <owl:Class rdf:ID='IE' pace:name="Internet Explorer">
+    <rdfs:subClassOf rdf:resource="#WebBrowser"/>
+  </owl:Class>
+  
+  <owl:Class rdf:ID="Firefox" pace:name="Firefox">
+    <rdfs:subClassOf rdf:resource="#WebBrowser"/>
+  </owl:Class>
+  
+  <owl:Class rdf:ID='SecuritySandbox' pace:name="Security Sandbox"/>
+  
+  <owl:Class rdf:ID='Plugins' pace:name="Web Browser PlugIns"/>
+ 
+
+  <!-- 
+  ///////////////////////////////////////////////////////////////////////////////////////
+  //
+  // Applicaton Server Section
+  //
+  ///////////////////////////////////////////////////////////////////////////////////////
+  -->
+
+  <owl:Class rdf:ID='ApplicationServer' pace:name="Application Server">
+    <pace:implementedBy rdf:resource="EjbContainer"/>
+    <pace:implementedBy rdf:resource="#MsTransactionServer"/>
+  </owl:Class>
+
+  <owl:Class rdf:ID="EjbContainer" pace:name="EJB Container">
+    <pace:implement rdf:resource='#SessionEJB'/>
+    <pace:implement rdf:resource='#EntityEJB'/>
+  </owl:Class>
+
+  <owl:Class rdf:ID="SessionEJB" pace:name="Session EJB"/>
+  
+  <owl:Class rdf:ID="EntityEJB" pace:name="Entity EJB"/>
+  
+  <owl:Class rdf:ID="MsTransactionServer" pace:name="Microsoft Transaction Server"/>
+  
+  <owl:Class rdf:ID="GlassFish" pace:name="GlassFish Server">
+     <rdfs:subClassOf rdf:resource="#ApplicationServer"/>
+  </owl:Class>
+  
+
+ 
+  <!-- 
+  ///////////////////////////////////////////////////////////////////////////////////////
+  //
+  //  HTTP Section
+  //
+  ///////////////////////////////////////////////////////////////////////////////////////
+  -->
+  
+  
+  <owl:Class rdf:ID="HTTP" pace:name="HyperText Transfer Protocol">
+    <pace:include rdf:resource="#URL"/>
+    <pace:include rdf:resource="#DomainNameServer"/>
+    <pace:include rdf:resource="#DoGet"/>
+    <pace:include rdf:resource="#DoPost"/>
+    <pace:include rdf:resource="#SessionManagement"/>
+  </owl:Class>
+
+  
+  <owl:Class rdf:ID="URL" pace:name="Uniform Resource Locator">
+    <pace:include rdf:resource="#DomainName"/>
+    <pace:include rdf:resource="#IPAddress"/>
+    <pace:include rdf:resource="#PortNumber"/>
+    <pace:include rdf:resource="#QueryString"/>
+  </owl:Class> 
+  
+  <owl:Class rdf:ID="DomainName" pace:name="Domain Name"/>
+  
+  <owl:Class rdf:ID="DomainNameServer" pace:name="Domain Name Server"/>
+  
+  <owl:Class rdf:ID="DoGet" pace:name="DoGet">
+     <pace:partOf rdf:resource="#HTTP"/>
+  </owl:Class>
+    
+  <owl:Class rdf:ID="DoPost" pace:name="DoPost">
+     <pace:partOf rdf:resource="#HTTP"/>
+  </owl:Class>
+  
+  <owl:Class rdf:ID="IPAddress" pace:name="IP Address"/>
+  
+  <owl:Class rdf:ID="IPv4" pace:name="IP version 4">
+     <rdfs:subClassOf rdf:resource='#IPAddress'/>
+  </owl:Class> 
+  
+  <owl:Class rdf:ID="IPv6" pace:name="IP version 6">
+     <rdfs:subClassOf rdf:resource='#IPAddress'/>
+  </owl:Class> 
+  
+  <owl:Class rdf:ID="PortNumber" pace:name="Port Number"/>
+    
+  <owl:Class rdf:ID="QueryString" pace:name="Query String"/>
+    
+
+  <!-- 
+  ///////////////////////////////////////////////////////////////////////////////////////
+  //
+  // Web Page Section
+  //
+  ///////////////////////////////////////////////////////////////////////////////////////
+  -->
+  
+  <owl:Class rdf:ID="WebPage" pace:name="Web Page">
+    <pace:include rdf:resource='#HTML'/>  
+    <pace:include rdf:resource='#CSS'/> 
+    <pace:include rdf:resource='#JavaScript'/> 
+  </owl:Class> 
+      
+  <owl:Class rdf:ID="HTML" pace:name="HTML">
+    <pace:include rdf:resource='#HyperLinks'/>  
+    <pace:include rdf:resource='#HtmlForm'/> 
+  </owl:Class> 
+
+  <owl:Class rdf:ID="HyperLinks" pace:name="HyperLinks"/>
+    
+  <owl:Class rdf:ID="HtmlForm" pace:name="HTML Form"/>
+  
+  <owl:Class rdf:ID="XHTML" pace:name="XHTML">
+    <rdfs:subClassOf rdf:resource="#HTML"/>
+  </owl:Class> 
+  
+  <owl:Class rdf:ID="CSS" pace:name="Casade Style Sheets"/>
+  
+  <owl:Class rdf:ID="JavaScript" pace:name="Java Script"/>
+
+
+  <!-- 
+  ///////////////////////////////////////////////////////////////////////////////////////
+  //
+  // Learning Order Section
+  //
+  ///////////////////////////////////////////////////////////////////////////////////////
+  -->
+    
+  <pace:LearningOrder rdf:ID="Beginner">
+    <pace:ref rdf:resource="URL"/>
+    <pace:ref rdf:resource="HTML"/>
+    <pace:ref rdf:resource="HTTP"/>
+    <pace:ref rdf:resource="SessionManagement"/>
+    <pace:ref rdf:resource="WebArchitecture"/>
+  </pace:LearningOrder>
+
+  <pace:LearningOrder rdf:ID="Intermediate">
+    <pace:ref rdf:resource="HTML"/>
+    <pace:ref rdf:resource="HTTP"/>
+    <pace:ref rdf:resource="SessionManagement"/>
+    <pace:ref rdf:resource="WebArchitecture"/>
+    <pace:ref rdf:resource="URL"/>
+  </pace:LearningOrder>
+
+</rdf:RDF>

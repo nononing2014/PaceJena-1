@@ -1,0 +1,146 @@
+<?xml version='1.0'?>
+<!DOCTYPE rdf:RDF 
+[<!ENTITY xsd "http://www.w3.org/2001/XMLSchema#">
+ <!ENTITY yetAnotherOne "http://www.yetAnotherOne.com#">
+ <!ENTITY owl "http://www.w3.org/2002/07/owl#">
+ <!ENTITY someStandard "http://www.someStandard.org#">
+]>
+<rdf:RDF xmlns:rdf='http://www.w3.org/1999/02/22-rdf-syntax-ns#'
+         xmlns:rdfs='http://www.w3.org/2000/01/rdf-schema#'
+         xmlns:owl='http://www.w3.org/2002/07/owl#'
+         xml:base='http://www.yuchen.net/photography/Camera.owl'>
+
+  <owl:Ontology 
+       rdf:about='http://www.yuchen.net/photography/Camera.owl'>
+     <rdfs:comment>our final camera ontology</rdfs:comment>
+     <rdfs:label>Camera ontology</rdfs:label>
+     <owl:versionInfo>Camera.owl 1.0</owl:versionInfo>
+  </owl:Ontology>
+
+  <owl:Class rdf:ID='Camera'>
+  </owl:Class>
+
+  <owl:Class rdf:ID='Person'>
+  </owl:Class>
+
+  <owl:Class rdf:ID='Film'>
+    <rdfs:subClassOf rdf:resource='#Camera'/>
+  </owl:Class>
+
+  <owl:Class rdf:ID='Digital'>
+    <rdfs:subClassOf rdf:resource='#Camera'/>
+    <owl:equivalentClass 
+           rdf:resource='&yetAnotherOne;DigitalCamera'/>
+  </owl:Class>
+
+  <owl:Class rdf:ID='SLR'>
+    <rdfs:subClassOf rdf:resource='#Digital'/>
+    <owl:equivalentClass 
+           rdf:resource='&yetAnotherOne;SingleLensReflex'/>
+    <owl:disjointWith rdf:resource='#PointAndShoot'/>
+  </owl:Class>
+
+  <owl:Class rdf:ID='PointAndShoot'>
+    <rdfs:subClassOf rdf:resource='#Digital'/>
+  </owl:Class>
+
+  <owl:Class rdf:ID='Photographer'>
+    <rdfs:subClassOf rdf:resource='#Person'/>
+  </owl:Class>
+
+  <owl:Class rdf:ID='Specifications'>
+  </owl:Class>
+
+  <owl:Class rdf:ID='Professional'>
+    <rdfs:subClassOf rdf:resource='#Photographer'/>
+    <owl:disjointWith rdf:resource='#Amateur'/>
+  </owl:Class>
+
+  <owl:Class rdf:ID='Amateur'>
+    <rdfs:subClassOf rdf:resource='#Photographer'/>
+  </owl:Class>
+
+  <owl:Class rdf:ID='ExpensiveSLR'>
+    <rdfs:subClassOf rdf:resource='#SLR'/>
+    <rdfs:subClassOf>
+       <owl:Restriction>
+          <owl:onProperty rdf:resource='#owned_by'/>
+          <owl:someValuesFrom rdf:resource='#Professional'/>
+       </owl:Restriction>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
+       <owl:Restriction>
+          <owl:onProperty rdf:resource='#expensiveOrNot'/>
+          <owl:hasValue 
+                 rdf:datatype='&xsd;string'>
+            expensive
+          </owl:hasValue>
+       </owl:Restriction>
+    </rdfs:subClassOf>
+  </owl:Class>
+ 
+
+  <owl:AllDifferent>
+    <owl:distinctMembers rdf:parseType='Collection'>
+    </owl:distinctMembers>
+  </owl:AllDifferent>
+
+  <owl:DatatypeProperty rdf:ID='expensiveOrNot'>
+    <rdfs:domain rdf:resource='#Digital'/>
+    <rdfs:range
+            rdf:resource='&xsd;string'/>
+  </owl:DatatypeProperty>
+
+  <rdfs:datatype      
+          rdf:about='&xsd;string'/>
+
+  <owl:DatatypeProperty rdf:ID='model'>
+    <rdf:type 
+         rdf:resource='&owl;FunctionalProperty'/>
+    <rdfs:domain rdf:resource='#Specifications'/>
+    <rdfs:range
+            rdf:resource='&xsd;string'/>
+  </owl:DatatypeProperty>
+
+  <owl:DatatypeProperty rdf:ID='pixel'>
+    <rdfs:domain rdf:resource='#Digital'/>
+    <rdfs:range
+            rdf:resource='&someStandard;MegaPixel'/>
+  </owl:DatatypeProperty>
+
+  <rdfs:datatype rdf:about='&someStandard;MegaPixel'>
+    <rdfs:subClassOf
+            rdf:resource='&xsd;decimal'/>
+  </rdfs:datatype>
+
+  <owl:ObjectProperty rdf:ID='has_spec'>
+    <rdfs:domain rdf:resource='#SLR'/>
+    <rdfs:range rdf:resource='#Specifications'/>
+  </owl:ObjectProperty>
+
+  <owl:ObjectProperty rdf:ID='owned_by'>
+    <rdfs:domain rdf:resource='#SLR'/>
+    <rdfs:range rdf:resource='#Photographer'/>
+  </owl:ObjectProperty>
+
+  <owl:ObjectProperty rdf:ID='own'>
+    <owl:inverseOf rdf:resource='#owned_by'/>
+    <rdfs:domain rdf:resource='#Photographer'/>
+    <rdfs:range rdf:resource='#SLR'/>
+  </owl:ObjectProperty>
+
+  <owl:ObjectProperty rdf:ID='friend_with'>
+    <rdf:type 
+          rdf:resource='&owl;SymmetricProperty'/>
+    <rdfs:domain rdf:resource='#Person'/>
+    <rdfs:range rdf:resource='#Person'/>
+  </owl:ObjectProperty>
+
+  <owl:ObjectProperty rdf:ID='betterQualityPriceRatio'>
+    <rdf:type 
+         rdf:resource='&owl;TransitiveProperty'/>
+    <rdfs:domain rdf:resource='#Camera'/>
+    <rdfs:range rdf:resource='#Camera'/>
+  </owl:ObjectProperty>
+
+</rdf:RDF>

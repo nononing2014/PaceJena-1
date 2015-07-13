@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<catalog prefer="public" xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog">
+    <group id="Folder Repository, directory=, recursive=true, Auto-Update=true, version=2" prefer="public" xml:base="">
+        <uri id="Automatically generated entry, Timestamp=1435080835198" name="http://csis.pace.edu/semweb/webTutorial.owl" uri="webTutorial.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1435080835198" name="http://www.semanticweb.org/khagesh/ontologies/2015/4/untitled-ontology-9" uri="trial.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1435080835198" name="http://www.semanticweb.org/ning/ontologies/2015/5/untitled-ontology-34" uri="logic.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1435080835198" name="http://www.semanticweb.org/ning/ontologies/2015/5/untitled-ontology-36" uri="new1.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1435080835198" name="http://www.yuchen.net/photography/Camera.owl" uri="camera.owl"/>
+    </group>
+</catalog>

@@ -1,0 +1,164 @@
+<?xml version="1.0"?>
+
+
+<!DOCTYPE rdf:RDF [
+    <!ENTITY owl "http://www.w3.org/2002/07/owl#" >
+    <!ENTITY xsd "http://www.w3.org/2001/XMLSchema#" >
+    <!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema#" >
+    <!ENTITY ace_lexicon "http://attempto.ifi.uzh.ch/ace_lexicon#" >
+    <!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#" >
+]>
+
+
+<rdf:RDF xmlns="http://www.semanticweb.org/ning/ontologies/2015/5/untitled-ontology-36#"
+     xml:base="http://www.semanticweb.org/ning/ontologies/2015/5/untitled-ontology-36"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     xmlns:owl="http://www.w3.org/2002/07/owl#"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:ace_lexicon="http://attempto.ifi.uzh.ch/ace_lexicon#">
+    <owl:Ontology rdf:about="http://www.semanticweb.org/ning/ontologies/2015/5/untitled-ontology-36"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Annotation properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://attempto.ifi.uzh.ch/ace_lexicon#CN_pl -->
+
+    <owl:AnnotationProperty rdf:about="&ace_lexicon;CN_pl"/>
+    
+
+
+    <!-- http://attempto.ifi.uzh.ch/ace_lexicon#CN_sg -->
+
+    <owl:AnnotationProperty rdf:about="&ace_lexicon;CN_sg"/>
+    
+
+
+    <!-- http://attempto.ifi.uzh.ch/ace_lexicon#TV_pl -->
+
+    <owl:AnnotationProperty rdf:about="&ace_lexicon;TV_pl"/>
+    
+
+
+    <!-- http://attempto.ifi.uzh.ch/ace_lexicon#TV_sg -->
+
+    <owl:AnnotationProperty rdf:about="&ace_lexicon;TV_sg"/>
+    
+
+
+    <!-- http://attempto.ifi.uzh.ch/ace_lexicon#TV_vbg -->
+
+    <owl:AnnotationProperty rdf:about="&ace_lexicon;TV_vbg"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Object Properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.semanticweb.org/ning/ontologies/2015/5/untitled-ontology-36#has -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/ning/ontologies/2015/5/untitled-ontology-36#has">
+        <ace_lexicon:TV_pl>has</ace_lexicon:TV_pl>
+        <ace_lexicon:TV_sg>hases</ace_lexicon:TV_sg>
+        <ace_lexicon:TV_vbg>hased</ace_lexicon:TV_vbg>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/ning/ontologies/2015/5/untitled-ontology-36#partOf -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/ning/ontologies/2015/5/untitled-ontology-36#partOf">
+        <rdf:type rdf:resource="&owl;TransitiveProperty"/>
+        <ace_lexicon:TV_vbg>partOfed</ace_lexicon:TV_vbg>
+        <ace_lexicon:TV_sg>partOfs</ace_lexicon:TV_sg>
+        <ace_lexicon:TV_pl>partOf</ace_lexicon:TV_pl>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Classes
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.semanticweb.org/ning/ontologies/2015/5/untitled-ontology-36#Body -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/ning/ontologies/2015/5/untitled-ontology-36#Body">
+        <ace_lexicon:CN_sg>Body</ace_lexicon:CN_sg>
+        <ace_lexicon:CN_pl>Bodies</ace_lexicon:CN_pl>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ning/ontologies/2015/5/untitled-ontology-36#Finger -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/ning/ontologies/2015/5/untitled-ontology-36#Finger">
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.semanticweb.org/ning/ontologies/2015/5/untitled-ontology-36#partOf"/>
+                <owl:someValuesFrom rdf:resource="http://www.semanticweb.org/ning/ontologies/2015/5/untitled-ontology-36#Hand"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <ace_lexicon:CN_sg>Finger</ace_lexicon:CN_sg>
+        <ace_lexicon:CN_pl>Fingers</ace_lexicon:CN_pl>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ning/ontologies/2015/5/untitled-ontology-36#Hand -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/ning/ontologies/2015/5/untitled-ontology-36#Hand">
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.semanticweb.org/ning/ontologies/2015/5/untitled-ontology-36#partOf"/>
+                <owl:someValuesFrom rdf:resource="http://www.semanticweb.org/ning/ontologies/2015/5/untitled-ontology-36#Body"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <ace_lexicon:CN_sg>Hand</ace_lexicon:CN_sg>
+        <ace_lexicon:CN_pl>Hands</ace_lexicon:CN_pl>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ning/ontologies/2015/5/untitled-ontology-36#Ishaan -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/ning/ontologies/2015/5/untitled-ontology-36#Ishaan">
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.semanticweb.org/ning/ontologies/2015/5/untitled-ontology-36#has"/>
+                <owl:someValuesFrom rdf:resource="http://www.semanticweb.org/ning/ontologies/2015/5/untitled-ontology-36#Body"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <ace_lexicon:CN_sg>Ishaan</ace_lexicon:CN_sg>
+        <ace_lexicon:CN_pl>Ishaans</ace_lexicon:CN_pl>
+    </owl:Class>
+</rdf:RDF>
+
+
+
+<!-- Generated by the OWL API (version 3.4.2) http://owlapi.sourceforge.net -->
+

@@ -17,8 +17,7 @@ import javax.xml.parsers.SAXParser;
 
 public class PaceJena extends DefaultHandler implements LexicalHandler {
 	StringBuffer textBuffer;
-	Stack<OwlElement> stack_E = new Stack<OwlElement>(); // stack of element enum values
-	Stack<Object> stack_object = new Stack<Object>(); // stack of OWL elements
+	Stack<State> states = new Stack<State>(); // stack of states
 	int pass = 1;
 	
 	Hashtable<String, Ontology> ontologyHash = new Hashtable<String, Ontology>();
@@ -562,7 +561,7 @@ public class PaceJena extends DefaultHandler implements LexicalHandler {
 		  return o;   
 	}
 	
-	static Object stack_at(Stack<Object> s, int i) { // index of stack top is 0
+	static State stack_at(Stack<State> s, int i) { // index of stack top is 0
 	  return s.get(s.size() - i - 1);
 	}
 	
@@ -643,164 +642,165 @@ public class PaceJena extends DefaultHandler implements LexicalHandler {
 	    return;
 	  }
 	  // pass 2 starts here
+	  Object obj = new Object();
 	  switch (n) {
 		case RDF: 
-	      stack_object.push(new Object()); 
+	      obj = new Object(); 
 	      currentOntology.base = attrValue(attrs, "base");
 	      break;
 		case ONTOLOGY: 
-	      stack_object.push(currentOntology); 
+	      obj = currentOntology; 
 	      currentOntology.about = attrValue(attrs, "about");
 	      break;
-		case COMMENT: stack_object.push(new Object()); break;
-		case LABEL: stack_object.push(new Object()); break;
-		case VERSIONINFO: stack_object.push(new Object()); break;
+		case COMMENT: obj = new Object(); break;
+		case LABEL: obj = new Object(); break;
+		case VERSIONINFO: obj = new Object(); break;
 		case NEWRELATION:
 			Relation rel=findRelation(attrValue(attrs, "about"));
-			stack_object.push(rel); 	
+			obj = rel; 	
 			break;
 		case CLASS: 
 	      aClass = findClass(attrValue(attrs, "about")); 
 	      if (aClass == null) error("Class " + attrValue(attrs, "about") + " missing");
 	      aClass.namespace = currentOntology.base; // need be revised to the class's namespace
-	      stack_object.push(aClass);      
+	      obj = aClass;      
 	      break;
 		case SUBCLASSOF: 
 	      if (attrValue(attrs, "resource").equals("")) { // base class is a restriction
-	        stack_object.push(new Object());       
+	        obj = new Object();       
 	        break;
 	      }
-	      if (stack_E.peek() == OwlElement.CLASS) {
-	        aClass = (OwlClass)stack_object.peek(); // subClassOf must be directly nested in class or datatype
+	      if (states.peek().getOwlElement() == OwlElement.CLASS) {
+	        aClass = (OwlClass)states.peek().getObject(); // subClassOf must be directly nested in class or datatype
 	        bClass = findClass(attrValue(attrs, "resource"));
 	        aClass.subClassOf.add(bClass); 
 	        bClass.superClassOf.add(aClass);
 	      }
-	      else if (stack_E.peek() == OwlElement.DATATYPE) {
-	        DataType d = (DataType)stack_object.peek(); // subClassOf must be directly nested in class or datatype
+	      else if (states.peek().getOwlElement() == OwlElement.DATATYPE) {
+	        DataType d = (DataType)states.peek().getObject(); // subClassOf must be directly nested in class or datatype
 	        d.subClassOf = attrValue(attrs, "resource");
 	      }
 	      else error("Misplaced subClassOf");
-	      stack_object.push(new Object());       
+	      obj = new Object();       
 	      break;
 		case DISJOINTWITH: 
-	      if (stack_E.peek() != OwlElement.CLASS) error("Misplaced DisjointWith");
-	      aClass = (OwlClass)stack_object.peek();
+	      if (states.peek().getOwlElement() != OwlElement.CLASS) error("Misplaced DisjointWith");
+	      aClass = (OwlClass)states.peek().getObject();
 	      aClass.disjointWith.add(findClass(attrValue(attrs, "resource")));
-	      stack_object.push(new Object()); 
+	      obj = new Object(); 
 	      break;
 		case RESTRICTION: 
-	      if (stack_E.peek() != OwlElement.SUBCLASSOF) error("Misplaced Restriction");
+	      if (states.peek().getOwlElement() != OwlElement.SUBCLASSOF) error("Misplaced Restriction");
 	      PropertyRestriction pr = new PropertyRestriction();
-	      aClass = (OwlClass)stack_at(stack_object, 1); 
+	      aClass = (OwlClass)stack_at(states, 1).getObject(); 
 	      aClass.propertyRestrictions.add(pr); 
-	      stack_object.push(pr); 
+	      obj = pr; 
 	      break;
 		case EQUIVALENTCLASS: 
-	      if (stack_E.peek() != OwlElement.CLASS) error("Misplaced EquivalentClass");
-	      aClass = (OwlClass)stack_at(stack_object, 0);
+	      if (states.peek().getOwlElement() != OwlElement.CLASS) error("Misplaced EquivalentClass");
+	      aClass = (OwlClass)stack_at(states, 0).getObject();
 	      if (attrValue(attrs, "resource").startsWith("http:"))
 	        aClass.equivalentClass.add(attrValue(attrs, "resource"));
 	      else
 	        aClass.equivalentClass.add(findClass(attrValue(attrs, "resource"))); 
-	      stack_object.push(new Object()); 
+	      obj = new Object(); 
 	      break;
 		case ONPROPERTY: 
-	      if (stack_E.peek() != OwlElement.RESTRICTION) error("Misplaced onProperty");
-	      pr = (PropertyRestriction)stack_at(stack_object, 0);
+	      if (states.peek().getOwlElement() != OwlElement.RESTRICTION) error("Misplaced onProperty");
+	      pr = (PropertyRestriction)stack_at(states, 0).getObject();
 	      pr.basePropertyName = attrValue(attrs, "resource");
 	      pr.baseProperty = findProperty(pr.basePropertyName);
-	      stack_object.push(new Object()); 
+	      obj = new Object(); 
 	      break;
 		case SOMEVALUESFROM: 
-	      if (stack_E.peek() != OwlElement.RESTRICTION) error("Misplaced someValuesFrom");
-	      pr = (PropertyRestriction)stack_at(stack_object, 0);
+	      if (states.peek().getOwlElement() != OwlElement.RESTRICTION) error("Misplaced someValuesFrom");
+	      pr = (PropertyRestriction)stack_at(states, 0).getObject();
 	      pr.valueClass = (OwlClass)findClass(attrValue(attrs, "resource"));
 	      pr.type = PropertyResctrictionType.SomeValuesFrom;
-	      stack_object.push(new Object()); 
+	      obj = new Object(); 
 	      break;
 		case HASVALUE: 
-	      if (stack_E.peek() != OwlElement.RESTRICTION) error("Misplaced hasValue");
-	      pr = (PropertyRestriction)stack_at(stack_object, 0);
+	      if (states.peek().getOwlElement() != OwlElement.RESTRICTION) error("Misplaced hasValue");
+	      pr = (PropertyRestriction)stack_at(states, 0).getObject();
 	      pr.valueType = attrValue(attrs, "datatype");
 	      pr.type = PropertyResctrictionType.HasValue;       
-	      stack_object.push(new Object()); 
+	      obj = new Object(); 
 	      break;
-		case ALLDIFFERENT: stack_object.push(new Object()); break; // have not been worked on yet
+		case ALLDIFFERENT: obj = new Object(); break; // have not been worked on yet
 		case DATATYPEPROPERTY: 
 	      String name = attrValue(attrs, "ID");
 	      DatatypeProperty dp = (DatatypeProperty)findProperty(name); 
 	      dp.namespace = currentOntology.base;
-	      stack_object.push(dp); 
+	      obj = dp; 
 	      break;
 		case DOMAIN: 
-	      if (stack_E.peek() != OwlElement.OBJECTPROPERTY && stack_E.peek() != OwlElement.DATATYPEPROPERTY) error("Misplaced domain");
-	      PropertyClass p = (PropertyClass)stack_at(stack_object, 0);
+	      if (states.peek().getOwlElement() != OwlElement.OBJECTPROPERTY && states.peek().getOwlElement() != OwlElement.DATATYPEPROPERTY) error("Misplaced domain");
+	      PropertyClass p = (PropertyClass)stack_at(states, 0).getObject();
 	      OwlClass o = (OwlClass)findClass(attrValue(attrs, "resource"));
 	      p.domain = o;
 	      o.properties.add(p);
-	      stack_object.push(new Object()); 
+	      obj = new Object(); 
 	      break;
 		case RANGE: 
-	      if (stack_E.peek() == OwlElement.OBJECTPROPERTY) {
-	        ObjectProperty op = (ObjectProperty)stack_at(stack_object, 0);
+	      if (states.peek().getOwlElement() == OwlElement.OBJECTPROPERTY) {
+	        ObjectProperty op = (ObjectProperty)stack_at(states, 0).getObject();
 	        op.range = (OwlClass)findClass(attrValue(attrs, "resource"));
 	      }
-	      else if (stack_E.peek() == OwlElement.DATATYPEPROPERTY) {
-	        dp = (DatatypeProperty)stack_at(stack_object, 0);
+	      else if (states.peek().getOwlElement() == OwlElement.DATATYPEPROPERTY) {
+	        dp = (DatatypeProperty)stack_at(states, 0).getObject();
 	        dp.range = attrValue(attrs, "resource");
 	      }
 	      else 
 	        error("Misplaced range");
-	      stack_object.push(new Object()); 
+	      obj = new Object(); 
 	      break;
 		case DATATYPE: 
 	      DataType dt = findDatatype(attrValue(attrs, "about"));
-	      stack_object.push(dt); 
+	      obj = dt; 
 	      break;
 		case TYPE:
-		  if(stack_E.peek() == OwlElement.NEWRELATION)
+		  if(states.peek().getOwlElement() == OwlElement.NEWRELATION)
 		  {
-			Relation nr =  (Relation)stack_object.peek();
+			Relation nr =  (Relation)states.peek().getObject();
 			processRelationRestriction(nr,attrValue(attrs, "resource"));
-			stack_object.push(new Object());
+			obj = new Object();
 			break;
 		  }
-	      if ((stack_E.peek() != OwlElement.OBJECTPROPERTY) && (stack_E.peek() != OwlElement.DATATYPEPROPERTY)) error("Misplaced type");
-	      p = (PropertyClass)stack_at(stack_object, 0);
+	      if ((states.peek().getOwlElement() != OwlElement.OBJECTPROPERTY) && (states.peek().getOwlElement() != OwlElement.DATATYPEPROPERTY)) error("Misplaced type");
+	      p = (PropertyClass)stack_at(states, 0).getObject();
 	      p.type.add(attrValue(attrs, "resource"));
-	      stack_object.push(new Object()); 
+	      obj = new Object(); 
 	      break;
 		case OBJECTPROPERTY: 
 	      name = attrValue(attrs, "ID");
 	      ObjectProperty op = (ObjectProperty)findProperty(name);
 	      op.namespace = currentOntology.base;
-	      stack_object.push(op); 
+	      obj = op; 
 	      break;
 		case INVERSEOF: 
-	      if (stack_E.peek() != OwlElement.OBJECTPROPERTY) error("misplaced inverseOf");
-	      op = (ObjectProperty)stack_at(stack_object, 0);
+	      if (states.peek().getOwlElement() != OwlElement.OBJECTPROPERTY) error("misplaced inverseOf");
+	      op = (ObjectProperty)stack_at(states, 0).getObject();
 	      ObjectProperty op2 = (ObjectProperty)findProperty(attrValue(attrs, "resource"));
 	      op.inverseOf = op2;
 	      op2.inverseOf = op;
-	      stack_object.push(new Object()); 
+	      obj = new Object(); 
 	      break; 
-	    case DISTINCTMEMBERS: stack_object.push(new Object()); break; // have not been worked on yet
+	    case DISTINCTMEMBERS: obj = new Object(); break; // have not been worked on yet
 	    case LEARNINGORDER:
           String id = attrValue(attrs, "ID");
           if (id == null) id = "default";
-          stack_object.push(id);   
+          obj = id;   
           learningOrderVector = new Vector<OwlClass>();    
           break;
 		case REF:
     	  String resourceName = attrValue(attrs, "resource");
           aClass = findClass(resourceName);
-          if (stack_E.peek() == OwlElement.LEARNINGORDER) 
+          if (states.peek().getOwlElement() == OwlElement.LEARNINGORDER) 
           { 
 		    if (aClass != null)
         	 learningOrderVector.add(aClass);
           }
-          stack_object.push(aClass);
+          obj = aClass;
           break;
 		default:
 		  if(namespaceURI.equals("http://www.pace.edu/rel-syntax-ns#")){
@@ -808,21 +808,21 @@ public class PaceJena extends DefaultHandler implements LexicalHandler {
 				error("Relation not found");
 				break;
 			}
-			if (stack_E.peek() == OwlElement.CLASS) {
+			if (states.peek().getOwlElement() == OwlElement.CLASS) {
 				rel = findRelation(sName);
-				aClass = (OwlClass)stack_object.peek();
+				aClass = (OwlClass)states.peek().getObject();
 				bClass = findClass(attrValue(attrs, "resource"));
 				if(aClass.relationsMap.get(rel) == null)
 					aClass.relationsMap.put(rel,new ArrayList<OwlClass>());
 				aClass.relationsMap.get(rel).add(bClass);
-				stack_object.push(new Object());
+				obj = new Object();
 			}
 			break;
 		  }
 		  else
 		    System.out.println("startElement(): undefined element: " + sName);
 		}
-	  stack_E.push(n);
+	  states.push(new State(n,obj));
 	}
 	
 	public void endElement(String namespaceURI,
@@ -833,24 +833,24 @@ public class PaceJena extends DefaultHandler implements LexicalHandler {
 		OwlElement n = toEnum(sName);
 	  if (pass == 1) return;
 	  // pass = 2 starts here
-		Object o = stack_object.pop();
-		if (n != stack_E.pop()) 
+		Object o = states.peek().getObject();
+		if (n != states.pop().getOwlElement()) 
 	    error(sName + " occured at wrong location");
 		switch (n) {
 			case RDF: break;
 			case ONTOLOGY: break;
 			case COMMENT: 
-			  if (stack_E.peek() != OwlElement.ONTOLOGY) 
+			  if (states.pop().getOwlElement() != OwlElement.ONTOLOGY) 
 			  	error(sName + " occured at wrong location");
 			  currentOntology.comment = text();
 			  break;
 			case LABEL:
-			  if (stack_E.peek() != OwlElement.ONTOLOGY) 
+			  if (states.pop().getOwlElement() != OwlElement.ONTOLOGY) 
 			  	error(sName + " occured at wrong location");
 			  currentOntology.label = text();
 			  break;
 			case VERSIONINFO:
-			  if (stack_E.peek() != OwlElement.ONTOLOGY) 
+			  if (states.pop().getOwlElement() != OwlElement.ONTOLOGY) 
 			  	error(sName + " occured at wrong location");
 			  currentOntology.versionInfo = text();
 			  break;
@@ -863,7 +863,7 @@ public class PaceJena extends DefaultHandler implements LexicalHandler {
 			case ONPROPERTY:
 			case SOMEVALUESFROM: break;
 			case HASVALUE:
-	             PropertyRestriction pr = (PropertyRestriction)stack_at(stack_object, 0);
+	             PropertyRestriction pr = (PropertyRestriction)(stack_at(states, 0).getObject());
 	             pr.value = text();
 	             break;
 			case ALLDIFFERENT:  // have not been worked on yet
@@ -985,4 +985,24 @@ public class PaceJena extends DefaultHandler implements LexicalHandler {
 	  textBuffer = null;
 	  return s.trim(); 
 	}
+	
+	protected static class State {
+      OwlElement ele;
+  	  Object obj;
+	
+	  Object getObject(){
+		return obj;
+	  }
+	
+	  OwlElement getOwlElement(){
+		return ele;
+	  }
+	
+	  State(OwlElement e, Object o){
+		ele = e;
+		obj = o;
+	  }
+    }
+	
 }
+

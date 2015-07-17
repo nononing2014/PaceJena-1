@@ -16,6 +16,7 @@
      xmlns:owl="http://www.w3.org/2002/07/owl#"
 	 xmlns:rel="http://www.pace.edu/rel-syntax-ns#"
      xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+	 xmlns:pace="http://csis.pace.edu/semweb#"
      xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#">
     <owl:Ontology rdf:about="http://www.semanticweb.org/khagesh/ontologies/2015/4/untitled-ontology-9"/>
     
@@ -100,6 +101,19 @@
     //
     ///////////////////////////////////////////////////////////////////////////////////////
      -->
+	 
+	 <!-- 
+  ///////////////////////////////////////////////////////////////////////////////////////
+  //
+  // Learning Order Section
+  //
+  ///////////////////////////////////////////////////////////////////////////////////////
+  -->
+    
+  <pace:LearningOrder rdf:ID="Body">
+    <pace:ref rdf:resource="http://www.semanticweb.org/khagesh/ontologies/2015/4/untitled-ontology-9#Person"/>
+    <pace:ref rdf:resource="http://www.semanticweb.org/khagesh/ontologies/2015/4/untitled-ontology-9#Leg"/>
+  </pace:LearningOrder>
 
 </rdf:RDF>
 

@@ -1,0 +1,397 @@
+<?xml version="1.0"?>
+
+
+<!DOCTYPE rdf:RDF [
+    <!ENTITY pace "http://csis.pace.edu/semweb#" >
+    <!ENTITY owl "http://www.w3.org/2002/07/owl#" >
+    <!ENTITY xsd "http://www.w3.org/2001/XMLSchema#" >
+    <!ENTITY rel "http://www.pace.edu/rel-syntax-ns#" >
+    <!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema#" >
+    <!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#" >
+]>
+
+
+<rdf:RDF xmlns="http://csis.pace.edu/semweb/webTutorial.owl#"
+xml:base="http://csis.pace.edu/semweb/webTutorial.owl"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:owl="http://www.w3.org/2002/07/owl#"
+     xmlns:pace="http://csis.pace.edu/semweb#"
+     xmlns:rel="http://www.pace.edu/rel-syntax-ns#"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#">
+
+    
+
+    <rel:NewRelation rdf:about="http://csis.pace.edu/semweb/webTutorial.owl#implements"/>
+	<rel:NewRelation rdf:about="http://csis.pace.edu/semweb/webTutorial.owl#partOf">
+	<rdf:type rdf:resource="&owl;AsymmetricRelation"/>
+	</rel:NewRelation>
+	<rel:NewRelation rdf:about="http://csis.pace.edu/semweb/webTutorial.owl#includes"/>
+	<rel:NewRelation rdf:about="http://csis.pace.edu/semweb/webTutorial.owl#implementedBy"/>
+
+ <!-- http://csis.pace.edu/semweb/webTutorial.owl#Apache -->
+
+<owl:Class rdf:about="http://csis.pace.edu/semweb/webTutorial.owl#Apache">
+        <rdfs:subClassOf rdf:resource="http://csis.pace.edu/semweb/webTutorial.owl#WebServer"/>
+</owl:Class>
+
+ <!-- http://csis.pace.edu/semweb/webTutorial.owl#WebServer -->
+
+<owl:Class rdf:about="http://csis.pace.edu/semweb/webTutorial.owl#WebServer">
+        <rel:includes rdf:resource="http://csis.pace.edu/semweb/webTutorial.owl#WebServerCore"/>
+        <rel:includes rdf:resource="http://csis.pace.edu/semweb/webTutorial.owl#WebServerExtension"/>
+</owl:Class>
+
+     <!-- http://csis.pace.edu/semweb/webTutorial.owl#WebServerCore -->
+
+   <owl:Class rdf:about="http://csis.pace.edu/semweb/webTutorial.owl#WebServerCore">
+</owl:Class>
+
+ <!-- http://csis.pace.edu/semweb/webTutorial.owl#WebServerExtension -->
+
+    <owl:Class rdf:about="http://csis.pace.edu/semweb/webTutorial.owl#WebServerExtension">
+       
+</owl:Class>
+
+<!-- http://csis.pace.edu/semweb/webTutorial.owl#ServletContainer -->
+
+    <owl:Class rdf:about="http://csis.pace.edu/semweb/webTutorial.owl#ServletContainer">
+        <rel:includes rdf:resource="http://csis.pace.edu/semweb/webTutorial.owl#JSF"/>
+        <rel:includes rdf:resource="http://csis.pace.edu/semweb/webTutorial.owl#Servlet"/>
+        <rel:includes rdf:resource="http://csis.pace.edu/semweb/webTutorial.owl#JSP"/>
+</owl:Class>
+
+<!-- http://csis.pace.edu/semweb/webTutorial.owl#PHP -->
+
+    <owl:Class rdf:about="http://csis.pace.edu/semweb/webTutorial.owl#PHP">
+</owl:Class>
+
+<!-- http://csis.pace.edu/semweb/webTutorial.owl#JSF -->
+
+    <owl:Class rdf:about="http://csis.pace.edu/semweb/webTutorial.owl#JSF">
+</owl:Class>
+
+<!-- http://csis.pace.edu/semweb/webTutorial.owl#Servlet -->
+
+    <owl:Class rdf:about="http://csis.pace.edu/semweb/webTutorial.owl#Servlet">
+</owl:Class>
+
+<!-- http://csis.pace.edu/semweb/webTutorial.owl#JSP -->
+
+    <owl:Class rdf:about="http://csis.pace.edu/semweb/webTutorial.owl#JSP">
+</owl:Class>
+
+<!-- http://csis.pace.edu/semweb/webTutorial.owl#ApplicationServer -->
+
+    <owl:Class rdf:about="http://csis.pace.edu/semweb/webTutorial.owl#ApplicationServer">
+        <rel:implementedBy rdf:resource="http://csis.pace.edu/semweb/webTutorial.owl#MsTransactionServer"/>
+        <rel:implementedBy rdf:resource="http://csis.pace.edu/semweb/webTutorial.owl#EjbContainer"/>
+</owl:Class>
+
+ <!-- http://csis.pace.edu/semweb/webTutorial.owl#EjbContainer -->
+
+    <owl:Class rdf:about="http://csis.pace.edu/semweb/webTutorial.owl#EjbContainer">
+        <rdfs:subClassOf rdf:resource="http://csis.pace.edu/semweb/webTutorial.owl#HtmlForm"/>
+</owl:Class>
+
+<!-- http://csis.pace.edu/semweb/webTutorial.owl#MsTransactionServer -->
+
+    <owl:Class rdf:about="http://csis.pace.edu/semweb/webTutorial.owl#MsTransactionServer">
+</owl:Class>
+
+<!-- http://csis.pace.edu/semweb/webTutorial.owl#HtmlForm -->
+
+    <owl:Class rdf:about="http://csis.pace.edu/semweb/webTutorial.owl#HtmlForm">
+</owl:Class>
+
+<!-- http://csis.pace.edu/semweb/webTutorial.owl#CSS -->
+
+    <owl:Class rdf:about="http://csis.pace.edu/semweb/webTutorial.owl#CSS">
+</owl:Class>
+    
+
+
+    <!-- http://csis.pace.edu/semweb/webTutorial.owl#Cookie -->
+
+    <owl:Class rdf:about="http://csis.pace.edu/semweb/webTutorial.owl#Cookie">
+</owl:Class>
+    
+
+
+    <!-- http://csis.pace.edu/semweb/webTutorial.owl#DatabaseServer -->
+
+    <owl:Class rdf:about="http://csis.pace.edu/semweb/webTutorial.owl#DatabaseServer">
+</owl:Class>
+    
+	<!-- http://csis.pace.edu/semweb/webTutorial.owl#DoGet -->
+
+    <owl:Class rdf:about="http://csis.pace.edu/semweb/webTutorial.owl#DoGet">
+        <rel:partOf rdf:resource="http://csis.pace.edu/semweb/webTutorial.owl#HTTP"/>
+</owl:Class>
+    
+
+
+    <!-- http://csis.pace.edu/semweb/webTutorial.owl#DoPost -->
+
+    <owl:Class rdf:about="http://csis.pace.edu/semweb/webTutorial.owl#DoPost">
+        <rel:partOf rdf:resource="http://csis.pace.edu/semweb/webTutorial.owl#HTTP"/>
+</owl:Class>
+
+ <!-- http://csis.pace.edu/semweb/webTutorial.owl#HTTP -->
+
+    <owl:Class rdf:about="http://csis.pace.edu/semweb/webTutorial.owl#HTTP">
+        <rel:includes rdf:resource="http://csis.pace.edu/semweb/webTutorial.owl#DoGet"/>
+        <rel:includes rdf:resource="http://csis.pace.edu/semweb/webTutorial.owl#URL"/>
+        <rel:includes rdf:resource="http://csis.pace.edu/semweb/webTutorial.owl#DoPost"/>
+        <rel:includes rdf:resource="http://csis.pace.edu/semweb/webTutorial.owl#DomainNameServer"/>
+        <rel:includes rdf:resource="http://csis.pace.edu/semweb/webTutorial.owl#SessionManagement"/>
+</owl:Class>
+
+<!-- http://csis.pace.edu/semweb/webTutorial.owl#URL -->
+
+    <owl:Class rdf:about="http://csis.pace.edu/semweb/webTutorial.owl#URL">
+        <rel:includes rdf:resource="http://csis.pace.edu/semweb/webTutorial.owl#QueryString"/>
+        <rel:includes rdf:resource="http://csis.pace.edu/semweb/webTutorial.owl#IPAddress"/>
+        <rel:includes rdf:resource="http://csis.pace.edu/semweb/webTutorial.owl#PortNumber"/>
+        <rel:includes rdf:resource="http://csis.pace.edu/semweb/webTutorial.owl#DomainName"/>
+</owl:Class>
+
+ <!-- http://csis.pace.edu/semweb/webTutorial.owl#DomainNameServer -->
+
+    <owl:Class rdf:about="http://csis.pace.edu/semweb/webTutorial.owl#DomainNameServer">
+</owl:Class>
+
+<!-- http://csis.pace.edu/semweb/webTutorial.owl#SessionManagement -->
+
+    <owl:Class rdf:about="http://csis.pace.edu/semweb/webTutorial.owl#SessionManagement">
+        <rel:implementedBy rdf:resource="http://csis.pace.edu/semweb/webTutorial.owl#QueryString"/>
+        <rel:implementedBy rdf:resource="http://csis.pace.edu/semweb/webTutorial.owl#SessionObject"/>
+        <rel:implementedBy rdf:resource="http://csis.pace.edu/semweb/webTutorial.owl#Cookie"/>
+        <rel:implementedBy rdf:resource="http://csis.pace.edu/semweb/webTutorial.owl#HiddenField"/>
+</owl:Class>
+
+<!-- http://csis.pace.edu/semweb/webTutorial.owl#QueryString -->
+
+    <owl:Class rdf:about="http://csis.pace.edu/semweb/webTutorial.owl#QueryString">
+        <rel:partOf rdf:resource="http://csis.pace.edu/semweb/webTutorial.owl#URL"/>
+</owl:Class>
+
+<!-- http://csis.pace.edu/semweb/webTutorial.owl#IPAddress -->
+
+    <owl:Class rdf:about="http://csis.pace.edu/semweb/webTutorial.owl#IPAddress">
+</owl:Class>
+
+<!-- http://csis.pace.edu/semweb/webTutorial.owl#PortNumber -->
+
+    <owl:Class rdf:about="http://csis.pace.edu/semweb/webTutorial.owl#PortNumber">
+</owl:Class>
+
+<!-- http://csis.pace.edu/semweb/webTutorial.owl#DomainName -->
+
+    <owl:Class rdf:about="http://csis.pace.edu/semweb/webTutorial.owl#DomainName">
+</owl:Class>
+
+<!-- http://csis.pace.edu/semweb/webTutorial.owl#SessionObject -->
+
+    <owl:Class rdf:about="http://csis.pace.edu/semweb/webTutorial.owl#SessionObject">
+        <rel:implementedBy rdf:resource="http://csis.pace.edu/semweb/webTutorial.owl#HashTable"/>
+        <rel:implementedBy rdf:resource="http://csis.pace.edu/semweb/webTutorial.owl#SessionID"/>
+</owl:Class>
+
+<!-- http://csis.pace.edu/semweb/webTutorial.owl#HiddenField -->
+
+    <owl:Class rdf:about="http://csis.pace.edu/semweb/webTutorial.owl#HiddenField">
+        <rel:partOf rdf:resource="http://csis.pace.edu/semweb/webTutorial.owl#HtmlForm"/>
+</owl:Class>
+
+<!-- http://csis.pace.edu/semweb/webTutorial.owl#HashTable -->
+
+    <owl:Class rdf:about="http://csis.pace.edu/semweb/webTutorial.owl#HashTable">
+</owl:Class>
+
+<!-- http://csis.pace.edu/semweb/webTutorial.owl#SessionID -->
+
+    <owl:Class rdf:about="http://csis.pace.edu/semweb/webTutorial.owl#SessionID">
+        <rel:implementedBy rdf:resource="http://csis.pace.edu/semweb/webTutorial.owl#QueryString"/>
+        <rel:implementedBy rdf:resource="http://csis.pace.edu/semweb/webTutorial.owl#Cookie"/>
+        <rel:implementedBy rdf:resource="http://csis.pace.edu/semweb/webTutorial.owl#HiddenField"/>
+</owl:Class>
+
+<!-- http://csis.pace.edu/semweb/webTutorial.owl#EntityEJB -->
+
+    <owl:Class rdf:about="http://csis.pace.edu/semweb/webTutorial.owl#EntityEJB">
+</owl:Class>
+
+<!-- http://csis.pace.edu/semweb/webTutorial.owl#Firefox -->
+
+    <owl:Class rdf:about="http://csis.pace.edu/semweb/webTutorial.owl#Firefox">
+        <rdfs:subClassOf rdf:resource="http://csis.pace.edu/semweb/webTutorial.owl#WebBrowser"/>
+</owl:Class>
+
+<!-- http://csis.pace.edu/semweb/webTutorial.owl#WebBrowser -->
+
+    <owl:Class rdf:about="http://csis.pace.edu/semweb/webTutorial.owl#WebBrowser">
+        <rel:includes rdf:resource="http://csis.pace.edu/semweb/webTutorial.owl#SecuritySandbox"/>
+        <rel:includes rdf:resource="http://csis.pace.edu/semweb/webTutorial.owl#Plugins"/>
+</owl:Class>
+
+  <!-- http://csis.pace.edu/semweb/webTutorial.owl#SecuritySandbox -->
+
+    <owl:Class rdf:about="http://csis.pace.edu/semweb/webTutorial.owl#SecuritySandbox">
+</owl:Class>
+
+<!-- http://csis.pace.edu/semweb/webTutorial.owl#Plugins -->
+
+    <owl:Class rdf:about="http://csis.pace.edu/semweb/webTutorial.owl#Plugins">
+</owl:Class>
+    
+<!-- http://csis.pace.edu/semweb/webTutorial.owl#GlassFish -->
+
+    <owl:Class rdf:about="http://csis.pace.edu/semweb/webTutorial.owl#GlassFish">
+        <rdfs:subClassOf rdf:resource="http://csis.pace.edu/semweb/webTutorial.owl#ApplicationServer"/>
+</owl:Class>
+
+<!-- http://csis.pace.edu/semweb/webTutorial.owl#HTML -->
+
+    <owl:Class rdf:about="http://csis.pace.edu/semweb/webTutorial.owl#HTML">
+        <rel:includes rdf:resource="http://csis.pace.edu/semweb/webTutorial.owl#HyperLinks"/>
+        <rel:includes rdf:resource="http://csis.pace.edu/semweb/webTutorial.owl#HtmlForm"/>
+</owl:Class>
+
+<!-- http://csis.pace.edu/semweb/webTutorial.owl#HyperLinks -->
+
+    <owl:Class rdf:about="http://csis.pace.edu/semweb/webTutorial.owl#HyperLinks">
+</owl:Class>
+
+<!-- http://csis.pace.edu/semweb/webTutorial.owl#IE -->
+
+    <owl:Class rdf:about="http://csis.pace.edu/semweb/webTutorial.owl#IE">
+        <rdfs:subClassOf rdf:resource="http://csis.pace.edu/semweb/webTutorial.owl#WebBrowser"/>
+</owl:Class>
+
+<!-- http://csis.pace.edu/semweb/webTutorial.owl#IPv4 -->
+
+    <owl:Class rdf:about="http://csis.pace.edu/semweb/webTutorial.owl#IPv4">
+        <rdfs:subClassOf rdf:resource="http://csis.pace.edu/semweb/webTutorial.owl#IPAddress"/>
+</owl:Class>
+    
+
+
+    <!-- http://csis.pace.edu/semweb/webTutorial.owl#IPv6 -->
+
+    <owl:Class rdf:about="http://csis.pace.edu/semweb/webTutorial.owl#IPv6">
+        <rdfs:subClassOf rdf:resource="http://csis.pace.edu/semweb/webTutorial.owl#IPAddress"/>
+</owl:Class>
+
+<!-- http://csis.pace.edu/semweb/webTutorial.owl#JavaScript -->
+
+    <owl:Class rdf:about="http://csis.pace.edu/semweb/webTutorial.owl#JavaScript">
+</owl:Class>
+
+<!-- http://csis.pace.edu/semweb/webTutorial.owl#MySQL -->
+
+    <owl:Class rdf:about="http://csis.pace.edu/semweb/webTutorial.owl#MySQL">
+        <rdfs:subClassOf rdf:resource="http://csis.pace.edu/semweb/webTutorial.owl#DatabaseServer"/>
+</owl:Class>
+
+<!-- http://csis.pace.edu/semweb/webTutorial.owl#Oracle -->
+
+    <owl:Class rdf:about="http://csis.pace.edu/semweb/webTutorial.owl#Oracle">
+        <rdfs:subClassOf rdf:resource="http://csis.pace.edu/semweb/webTutorial.owl#DatabaseServer"/>
+</owl:Class>
+
+<!-- http://csis.pace.edu/semweb/webTutorial.owl#SQL -->
+
+    <owl:Class rdf:about="http://csis.pace.edu/semweb/webTutorial.owl#SQL">
+        <rdfs:subClassOf rdf:resource="http://csis.pace.edu/semweb/webTutorial.owl#DatabaseServer"/>
+</owl:Class>
+
+<!-- http://csis.pace.edu/semweb/webTutorial.owl#SessionEJB -->
+
+    <owl:Class rdf:about="http://csis.pace.edu/semweb/webTutorial.owl#SessionEJB">
+</owl:Class>
+
+ <!-- http://csis.pace.edu/semweb/webTutorial.owl#Tier1 -->
+
+    <owl:Class rdf:about="http://csis.pace.edu/semweb/webTutorial.owl#Tier1">
+        <rel:includes rdf:resource="http://csis.pace.edu/semweb/webTutorial.owl#WebBrowser"/>
+</owl:Class>
+    
+
+
+    <!-- http://csis.pace.edu/semweb/webTutorial.owl#Tier2 -->
+
+    <owl:Class rdf:about="http://csis.pace.edu/semweb/webTutorial.owl#Tier2">
+        <rel:includes rdf:resource="http://csis.pace.edu/semweb/webTutorial.owl#WebServer"/>
+</owl:Class>
+
+<!-- http://csis.pace.edu/semweb/webTutorial.owl#Tier3 -->
+
+    <owl:Class rdf:about="http://csis.pace.edu/semweb/webTutorial.owl#Tier3">
+        <rel:includes rdf:resource="http://csis.pace.edu/semweb/webTutorial.owl#ApplicationServer"/>
+</owl:Class>
+    
+
+
+    <!-- http://csis.pace.edu/semweb/webTutorial.owl#Tier4 -->
+
+    <owl:Class rdf:about="http://csis.pace.edu/semweb/webTutorial.owl#Tier4">
+        <rel:includes rdf:resource="http://csis.pace.edu/semweb/webTutorial.owl#DatabaseServer"/>
+</owl:Class>
+
+<!-- http://csis.pace.edu/semweb/webTutorial.owl#Tomcat -->
+
+    <owl:Class rdf:about="http://csis.pace.edu/semweb/webTutorial.owl#Tomcat">
+        <rdfs:subClassOf rdf:resource="http://csis.pace.edu/semweb/webTutorial.owl#WebServer"/>
+</owl:Class>
+
+<!-- http://csis.pace.edu/semweb/webTutorial.owl#WebArchitecture -->
+
+    <owl:Class rdf:about="http://csis.pace.edu/semweb/webTutorial.owl#WebArchitecture">
+        <rel:includes rdf:resource="http://csis.pace.edu/semweb/webTutorial.owl#Tier1"/>
+        <rel:includes rdf:resource="http://csis.pace.edu/semweb/webTutorial.owl#Tier2"/>
+        <rel:includes rdf:resource="http://csis.pace.edu/semweb/webTutorial.owl#Tier3"/>
+        <rel:includes rdf:resource="http://csis.pace.edu/semweb/webTutorial.owl#Tier4"/>
+</owl:Class>
+    
+  <!-- http://csis.pace.edu/semweb/webTutorial.owl#WebLogic -->
+
+    <owl:Class rdf:about="http://csis.pace.edu/semweb/webTutorial.owl#WebLogic">
+        <rel:includes rdf:resource="http://csis.pace.edu/semweb/webTutorial.owl#ApplicationServer"/>
+        <rel:includes rdf:resource="http://csis.pace.edu/semweb/webTutorial.owl#WebServer"/>
+</owl:Class>
+
+<!-- http://csis.pace.edu/semweb/webTutorial.owl#WebPage -->
+
+    <owl:Class rdf:about="http://csis.pace.edu/semweb/webTutorial.owl#WebPage">
+        <rel:includes rdf:resource="http://csis.pace.edu/semweb/webTutorial.owl#HTML"/>
+        <rel:includes rdf:resource="http://csis.pace.edu/semweb/webTutorial.owl#CSS"/>
+        <rel:includes rdf:resource="http://csis.pace.edu/semweb/webTutorial.owl#JavaScript"/>
+</owl:Class>
+
+<!-- http://csis.pace.edu/semweb/webTutorial.owl#WebSphere -->
+
+    <owl:Class rdf:about="http://csis.pace.edu/semweb/webTutorial.owl#WebSphere">
+        <rel:includes rdf:resource="http://csis.pace.edu/semweb/webTutorial.owl#ApplicationServer"/>
+        <rel:includes rdf:resource="http://csis.pace.edu/semweb/webTutorial.owl#WebServer"/>
+</owl:Class>
+
+<!-- http://csis.pace.edu/semweb/webTutorial.owl#WebTechnology -->
+
+    <owl:Class rdf:about="http://csis.pace.edu/semweb/webTutorial.owl#WebTechnology">
+        <rel:includes rdf:resource="http://csis.pace.edu/semweb/webTutorial.owl#WebPage"/>
+        <rel:includes rdf:resource="http://csis.pace.edu/semweb/webTutorial.owl#WebArchitecture"/>
+        <rel:includes rdf:resource="http://csis.pace.edu/semweb/webTutorial.owl#SessionManagement"/>
+        <rel:includes rdf:resource="http://csis.pace.edu/semweb/webTutorial.owl#HTTP"/>
+</owl:Class>
+
+<!-- http://csis.pace.edu/semweb/webTutorial.owl#XHTML -->
+
+    <owl:Class rdf:about="http://csis.pace.edu/semweb/webTutorial.owl#XHTML">
+        <rdfs:subClassOf rdf:resource="http://csis.pace.edu/semweb/webTutorial.owl#HTML"/>
+</owl:Class>
+    
+
+
+
+  </rdf:RDF> 
